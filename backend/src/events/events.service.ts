@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { SupabaseService } from '../../supabase/supabase.service';
+import { SupabaseService } from '../supabase/supabase.service';
 import { WebinarWithParticipants, ParticipantDetail } from './types';
 
 interface UserProfile {
