@@ -22,10 +22,8 @@ export default function CourseGradebookPage() {
                 const decodedId = decodeURIComponent(courseId);
                 const response = await getCourseGradebook(decodedId);
 
-                const results =
-                    response?.data?.results ??
-                    response?.results ??
-                    [];
+                // ✅ Correct mapping
+                const results = response?.data?.results ?? [];
 
                 setRows(results);
             } catch (err) {
@@ -40,7 +38,7 @@ export default function CourseGradebookPage() {
     }, [courseId]);
 
     return (
-        <Layout title="Course Gradebook" environment="PRODUCTION">
+        <Layout title="Course Gradebook">
             <div className="flex gap-2 mb-4">
                 <Link
                     to={`/open-edx/course/${courseId}/grades`}

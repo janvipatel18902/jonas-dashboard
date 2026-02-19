@@ -22,10 +22,8 @@ export default function CourseGradesPage() {
                 const decodedId = decodeURIComponent(courseId);
                 const response = await getCourseGrades(decodedId);
 
-                const results =
-                    response?.data?.results ??
-                    response?.results ??
-                    [];
+                // ✅ Correct mapping (based on your backend screenshots)
+                const results = response?.data?.results ?? [];
 
                 setRows(results);
             } catch (err) {
@@ -40,7 +38,7 @@ export default function CourseGradesPage() {
     }, [courseId]);
 
     return (
-        <Layout title="Course Grades" environment="PRODUCTION">
+        <Layout title="Course Grades">
             <div className="flex gap-2 mb-4">
                 <Link
                     to={`/open-edx/course/${courseId}/grades`}
@@ -67,8 +65,8 @@ export default function CourseGradesPage() {
             {loading ? (
                 <div>Loading...</div>
             ) : rows.length === 0 ? (
-                <div className="border border-gray-200 rounded-xl p-6 bg-white shadow-sm text-sm text-gray-500">
-                    No grades found.
+                <div className="border border-gray-200 rounded-xl p-6 bg-white shadow-sm">
+                    <p className="text-sm text-gray-600">No grades found.</p>
                 </div>
             ) : (
                 <div className="border border-gray-200 rounded-xl bg-white shadow-sm overflow-hidden">
@@ -85,9 +83,7 @@ export default function CourseGradesPage() {
                                 <tr key={i} className="border-b">
                                     <td className="px-4 py-2">{r.username}</td>
                                     <td className="px-4 py-2">{r.email || "-"}</td>
-                                    <td className="px-4 py-2 text-right">
-                                        {r.percent ?? 0}%
-                                    </td>
+                                    <td className="px-4 py-2 text-right">{r.percent ?? 0}%</td>
                                 </tr>
                             ))}
                         </tbody>

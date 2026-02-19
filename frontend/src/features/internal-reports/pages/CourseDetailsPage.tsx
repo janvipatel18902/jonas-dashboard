@@ -46,7 +46,6 @@ export default function CourseDetailsPage() {
     return (
         <Layout
             title={`Course Details: ${details?.name ?? courseId}`}
-            environment="PRODUCTION"
         >
             <div className="flex gap-2 mb-4">
                 <Link
