@@ -4,10 +4,10 @@ import { WebinarWithParticipants } from './types';
 
 @Controller('events')
 export class EventsController {
-    constructor(private readonly eventsService: EventsService) { }
+  constructor(private readonly eventsService: EventsService) {}
 
-    @Get()
-    async getAllEvents(): Promise<WebinarWithParticipants[]> {
-        return this.eventsService.getAllWebinarsWithParticipants();
-    }
+  @Get()
+  async getAllEvents(): Promise<WebinarWithParticipants[]> {
+    return this.eventsService.getAllWebinarsWithParticipants();
+  }
 }

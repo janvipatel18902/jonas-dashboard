@@ -3,21 +3,18 @@ import { SupabaseService } from './supabase/supabase.service';
 
 @Controller('test')
 export class TestController {
-    constructor(private readonly supabase: SupabaseService) { }
+  constructor(private readonly supabase: SupabaseService) {}
 
-    @Get()
-    async testConnection() {
-        const client = this.supabase.getClient();
+  @Get()
+  async testConnection() {
+    const client = this.supabase.getClient();
 
-        const { data, error } = await client
-            .from('webinars')
-            .select('*')
-            .limit(1);
+    const { data, error } = await client.from('webinars').select('*').limit(1);
 
-        if (error) {
-            return { error };
-        }
-
-        return { data };
+    if (error) {
+      return { error };
     }
+
+    return { data };
+  }
 }

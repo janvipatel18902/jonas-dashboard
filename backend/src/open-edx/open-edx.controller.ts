@@ -4,44 +4,44 @@ import { CoursesApiResponse } from './types';
 
 @Controller('open-edx')
 export class OpenEdxController {
-    constructor(private readonly openEdxService: OpenEdxService) { }
+  constructor(private readonly openEdxService: OpenEdxService) {}
 
-    /* ================= LIST ALL COURSES ================= */
+  /* ================= LIST ALL COURSES ================= */
 
-    @Get('courses')
-    async listAllCourses(): Promise<{ data: CoursesApiResponse }> {
-        const data = await this.openEdxService.getCourses();
-        return { data };
-    }
+  @Get('courses')
+  async listAllCourses(): Promise<{ data: CoursesApiResponse }> {
+    const data = await this.openEdxService.getCourses();
+    return { data };
+  }
 
-    /* ================= COURSE DETAILS ================= */
+  /* ================= COURSE DETAILS ================= */
 
-    @Get('courses/:courseId')
-    async getCourseDetails(@Param('courseId') courseId: string) {
-        const data = await this.openEdxService.getCourseDetails(courseId);
-        return { data };
-    }
+  @Get('courses/:courseId')
+  async getCourseDetails(@Param('courseId') courseId: string) {
+    const data = await this.openEdxService.getCourseDetails(courseId);
+    return { data };
+  }
 
-    /* ================= COURSE GRADEBOOK ================= */
+  /* ================= COURSE GRADEBOOK ================= */
 
-    @Get('courses/:courseId/gradebook')
-    async getCourseGradebook(@Param('courseId') courseId: string) {
-        const data = await this.openEdxService.getCourseGradebook(courseId);
-        return { data };
-    }
+  @Get('courses/:courseId/gradebook')
+  async getCourseGradebook(@Param('courseId') courseId: string) {
+    const data = await this.openEdxService.getCourseGradebook(courseId);
+    return { data };
+  }
 
-    /* ================= COURSE GRADES ================= */
+  /* ================= COURSE GRADES ================= */
 
-    @Get('courses/:courseId/grades')
-    async getCourseGrades(@Param('courseId') courseId: string) {
-        const data = await this.openEdxService.getCourseGrades(courseId);
-        return { data };
-    }
+  @Get('courses/:courseId/grades')
+  async getCourseGrades(@Param('courseId') courseId: string) {
+    const data = await this.openEdxService.getCourseGrades(courseId);
+    return { data };
+  }
 
-    /* ================= RAW TOKEN ================= */
+  /* ================= RAW TOKEN ================= */
 
-    @Get('token')
-    async getToken(): Promise<{ access_token: string }> {
-        return this.openEdxService.getRawToken();
-    }
+  @Get('token')
+  async getToken(): Promise<{ access_token: string }> {
+    return this.openEdxService.getRawToken();
+  }
 }

@@ -4,8 +4,8 @@ import { ProfessionalAccessService } from './professional-access.service';
 import { SupabaseModule } from '../supabase/supabase.module';
 
 @Module({
-    imports: [SupabaseModule],
-    controllers: [ProfessionalAccessController],
-    providers: [ProfessionalAccessService],
+  imports: [SupabaseModule],
+  controllers: [ProfessionalAccessController],
+  providers: [ProfessionalAccessService],
 })
-export class ProfessionalAccessModule { }
+export class ProfessionalAccessModule {}

@@ -1,197 +1,197 @@
 export interface CoursesApiResponse {
-    results: Course[];
-    pagination: Pagination;
+  results: Course[];
+  pagination: Pagination;
 }
 
 export interface Pagination {
-    next: string | null;
-    previous: string | null;
-    count: number;
-    num_pages: number;
+  next: string | null;
+  previous: string | null;
+  count: number;
+  num_pages: number;
 }
 
 export interface Course {
-    blocks_url: string;
-    effort: string | null;
-    end: string | null;
-    enrollment_start: string | null;
-    enrollment_end: string | null;
+  blocks_url: string;
+  effort: string | null;
+  end: string | null;
+  enrollment_start: string | null;
+  enrollment_end: string | null;
 
-    id: string;
-    course_id: string;
+  id: string;
+  course_id: string;
 
-    media: CourseMedia;
+  media: CourseMedia;
 
-    name: string;
-    number: string;
-    org: string;
+  name: string;
+  number: string;
+  org: string;
 
-    short_description: string;
+  short_description: string;
 
-    start: string | null;
-    start_display: string | null;
-    start_type: string | null;
+  start: string | null;
+  start_display: string | null;
+  start_type: string | null;
 
-    pacing: "self" | "instructor" | string;
-    mobile_available: boolean;
-    hidden: boolean;
-    invitation_only: boolean;
+  pacing: 'self' | 'instructor' | string;
+  mobile_available: boolean;
+  hidden: boolean;
+  invitation_only: boolean;
 }
 
 export interface CourseMedia {
-    banner_image: BannerImage;
-    course_image: SimpleImage;
-    course_video: { uri: string | null };
-    image: CourseImageSet;
+  banner_image: BannerImage;
+  course_image: SimpleImage;
+  course_video: { uri: string | null };
+  image: CourseImageSet;
 }
 
 export interface BannerImage {
-    uri: string;
-    uri_absolute: string;
+  uri: string;
+  uri_absolute: string;
 }
 
 export interface SimpleImage {
-    uri: string;
+  uri: string;
 }
 
 export interface CourseImageSet {
-    raw: string;
-    small: string;
-    large: string;
+  raw: string;
+  small: string;
+  large: string;
 }
 
 export interface CourseGradesResponse {
-    next: string | null;
-    previous: string | null;
-    results: CourseGradeResult[];
+  next: string | null;
+  previous: string | null;
+  results: CourseGradeResult[];
 }
 
 export interface CourseGradeResult {
-    username: string;
-    email: string;
-    course_id: string;
-    passed: boolean;
-    percent: number;
-    letter_grade: string | null;
+  username: string;
+  email: string;
+  course_id: string;
+  passed: boolean;
+  percent: number;
+  letter_grade: string | null;
 }
 
 export interface GradebookResult {
-    user_id: number;
-    username: string;
-    email: string;
-    percent: number;
-    section_breakdown: GradebookSectionBreakdown[];
+  user_id: number;
+  username: string;
+  email: string;
+  percent: number;
+  section_breakdown: GradebookSectionBreakdown[];
 }
 
 export type GradeCategory =
-    | "Self_Assessment"
-    | "Peer_Assessment"
-    | "Peer_Meeting";
+  | 'Self_Assessment'
+  | 'Peer_Assessment'
+  | 'Peer_Meeting';
 
 export interface GradebookSectionBreakdown {
-    attempted: boolean;
-    category: GradeCategory;
-    label: string;
-    module_id: string;
-    percent: number;
-    score_earned: number;
-    score_possible: number;
-    subsection_name: string;
+  attempted: boolean;
+  category: GradeCategory;
+  label: string;
+  module_id: string;
+  percent: number;
+  score_earned: number;
+  score_possible: number;
+  subsection_name: string;
 }
 
 export interface GradebookResponse {
-    next: string | null;
-    previous: string | null;
-    results: GradebookResult[];
+  next: string | null;
+  previous: string | null;
+  results: GradebookResult[];
 }
 
 export interface CourseDetailResponse {
-    access_expiration: string | null;
-    can_show_upgrade_sock: boolean;
-    content_type_gating_enabled: boolean;
+  access_expiration: string | null;
+  can_show_upgrade_sock: boolean;
+  content_type_gating_enabled: boolean;
 
-    course_goals: {
-        selected_goal: string | null;
-        weekly_learning_goal_enabled: boolean;
+  course_goals: {
+    selected_goal: string | null;
+    weekly_learning_goal_enabled: boolean;
+  };
+
+  effort: string | null;
+  end: string | null;
+
+  enrollment: {
+    mode: string | null;
+    is_active: boolean;
+  };
+
+  enrollment_start: string | null;
+  enrollment_end: string | null;
+
+  entrance_exam_data: {
+    entrance_exam_current_score: number;
+    entrance_exam_enabled: boolean;
+    entrance_exam_id: string;
+    entrance_exam_minimum_score_pct: number;
+    entrance_exam_passed: boolean;
+  };
+
+  id: string;
+  license: string | null;
+  language: string | null;
+
+  media: {
+    course_image: {
+      uri: string | null;
     };
-
-    effort: string | null;
-    end: string | null;
-
-    enrollment: {
-        mode: string | null;
-        is_active: boolean;
+    course_video: {
+      uri: string | null;
     };
-
-    enrollment_start: string | null;
-    enrollment_end: string | null;
-
-    entrance_exam_data: {
-        entrance_exam_current_score: number;
-        entrance_exam_enabled: boolean;
-        entrance_exam_id: string;
-        entrance_exam_minimum_score_pct: number;
-        entrance_exam_passed: boolean;
+    image: {
+      raw: string;
+      small: string;
+      large: string;
     };
+  };
 
-    id: string;
-    license: string | null;
-    language: string | null;
+  name: string;
+  offer: unknown | null;
+  related_programs: unknown | null;
 
-    media: {
-        course_image: {
-            uri: string | null;
-        };
-        course_video: {
-            uri: string | null;
-        };
-        image: {
-            raw: string;
-            small: string;
-            large: string;
-        };
-    };
+  short_description: string;
 
-    name: string;
-    offer: unknown | null;
-    related_programs: unknown | null;
+  start: string | null;
+  start_display: string | null;
+  start_type: string | null;
 
-    short_description: string;
+  pacing: 'self' | 'instructor-paced' | string;
+  user_timezone: string | null;
 
-    start: string | null;
-    start_display: string | null;
-    start_type: string | null;
+  show_calculator: boolean;
+  can_access_proctored_exams: boolean;
 
-    pacing: "self" | "instructor-paced" | string;
-    user_timezone: string | null;
+  notes: {
+    enabled: boolean;
+    visible: boolean;
+  };
 
-    show_calculator: boolean;
-    can_access_proctored_exams: boolean;
+  marketing_url: string | null;
 
-    notes: {
-        enabled: boolean;
-        visible: boolean;
-    };
+  celebrations: {
+    first_section: boolean;
+    streak_length_to_celebrate: number | null;
+    streak_discount_enabled: boolean;
+    weekly_goal: boolean;
+  };
 
-    marketing_url: string | null;
+  user_has_passing_grade: boolean;
+  course_exit_page_is_active: boolean;
 
-    celebrations: {
-        first_section: boolean;
-        streak_length_to_celebrate: number | null;
-        streak_discount_enabled: boolean;
-        weekly_goal: boolean;
-    };
+  certificate_data: unknown | null;
+  verify_identity_url: string | null;
+  verification_status: string;
+  linkedin_add_to_profile_url: string | null;
 
-    user_has_passing_grade: boolean;
-    course_exit_page_is_active: boolean;
+  is_integrity_signature_enabled: boolean;
+  user_needs_integrity_signature: boolean;
 
-    certificate_data: unknown | null;
-    verify_identity_url: string | null;
-    verification_status: string;
-    linkedin_add_to_profile_url: string | null;
-
-    is_integrity_signature_enabled: boolean;
-    user_needs_integrity_signature: boolean;
-
-    learning_assistant_enabled: boolean;
+  learning_assistant_enabled: boolean;
 }

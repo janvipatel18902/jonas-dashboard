@@ -4,8 +4,8 @@ import { UniversitiesService } from './universities.service';
 import { SupabaseModule } from '../supabase/supabase.module';
 
 @Module({
-    imports: [SupabaseModule],
-    controllers: [UniversitiesController],
-    providers: [UniversitiesService],
+  imports: [SupabaseModule],
+  controllers: [UniversitiesController],
+  providers: [UniversitiesService],
 })
-export class UniversitiesModule { }
+export class UniversitiesModule {}

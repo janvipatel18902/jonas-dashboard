@@ -5,7 +5,7 @@ import LogoutButton from "./LogoutButton";
 export type EnvironmentType = "PRODUCTION" | "DEVELOPMENT" | "UNKNOWN";
 
 interface LayoutProps {
-    title: ReactNode; // ✅ changed from string → ReactNode
+    title: ReactNode;
     children: ReactNode;
     environment?: EnvironmentType | null;
 }

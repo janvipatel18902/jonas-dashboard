@@ -1,6 +1,3 @@
-// FULL PRODUCTION SENIOR VERSION
-// (Replace your entire file with this)
-
 import {
     useReactTable,
     getCoreRowModel,

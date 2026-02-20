@@ -4,8 +4,8 @@ import { InternalEventsService } from './internal-events.service';
 import { SupabaseModule } from '../supabase/supabase.module';
 
 @Module({
-    imports: [SupabaseModule],
-    controllers: [InternalEventsController],
-    providers: [InternalEventsService],
+  imports: [SupabaseModule],
+  controllers: [InternalEventsController],
+  providers: [InternalEventsService],
 })
-export class InternalEventsModule { }
+export class InternalEventsModule {}

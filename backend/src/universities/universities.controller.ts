@@ -3,11 +3,11 @@ import { UniversitiesService } from './universities.service';
 
 @Controller('universities')
 export class UniversitiesController {
-    constructor(private readonly universitiesService: UniversitiesService) { }
+  constructor(private readonly universitiesService: UniversitiesService) {}
 
-    @Get()
-    async getAll() {
-        const data = await this.universitiesService.getUniversities();
-        return { data };
-    }
+  @Get()
+  async getAll() {
+    const data = await this.universitiesService.getUniversities();
+    return { data };
+  }
 }

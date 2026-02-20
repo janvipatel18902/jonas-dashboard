@@ -4,13 +4,13 @@ import type { ReportUserOverviewParams } from './query.service';
 
 @Controller('query')
 export class QueryController {
-    constructor(private readonly queryService: QueryService) { }
+  constructor(private readonly queryService: QueryService) {}
 
-    @Post()
-    async runQuery(
-        @Body() body: ReportUserOverviewParams,
-    ): Promise<{ data: unknown }> {
-        const data = await this.queryService.getUserOverview(body);
-        return { data };
-    }
+  @Post()
+  async runQuery(
+    @Body() body: ReportUserOverviewParams,
+  ): Promise<{ data: unknown }> {
+    const data = await this.queryService.getUserOverview(body);
+    return { data };
+  }
 }

@@ -13,7 +13,6 @@ import { QueryModule } from './query/query.module';
 import { ProfessionalAccessModule } from './professional-access/professional-access.module';
 import { AuthModule } from './auth/auth.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -27,11 +26,7 @@ import { AuthModule } from './auth/auth.module';
     ProfessionalAccessModule,
     AuthModule,
   ],
-  controllers: [
-    AppController,
-    TestController,
-
-  ],
+  controllers: [AppController, TestController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}

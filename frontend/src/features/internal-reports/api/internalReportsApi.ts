@@ -86,20 +86,19 @@ export async function grantProfessionalAccess(body: {
 
 /* ================= EVENTS ================= */
 
-export async function getEvents(): Promise<{ data: any[] }> {
-  const res = await fetch(`${BASE_URL}/events`);
-  if (!res.ok) throw new Error("Failed to fetch events");
+type EventItem = Record<string, unknown>;
 
-  const json = await res.json();
+export async function getEvents(): Promise<{ data: EventItem[] }> {
+    const res = await fetch(`${BASE_URL}/events`);
+    if (!res.ok) throw new Error("Failed to fetch events");
 
-  // Jonas backend may return:
-  // 1) [ ...events ]
-  // 2) { data: [ ...events ] }
-  // 3) { data: { data: [ ...events ] } } (less likely but safe)
-  if (Array.isArray(json)) return { data: json };
-  if (Array.isArray(json?.data)) return { data: json.data };
-  if (Array.isArray(json?.data?.data)) return { data: json.data.data };
+    const json = await res.json();
 
-  return { data: [] };
+    if (Array.isArray(json)) return { data: json };
+    if (Array.isArray(json?.data)) return { data: json.data };
+    if (Array.isArray(json?.data?.data)) return { data: json.data.data };
+
+    return { data: [] };
 }
+
 
