@@ -49,7 +49,7 @@ export default function OpenEdxPage() {
                 <div className="space-y-4">
                     <div className="border border-gray-200 rounded-xl p-4 bg-white shadow-sm">
                         <p className="text-sm text-gray-600">
-                            Showing {courses.length} courses
+                            Showing {courses.length} of {courses.length} courses
                         </p>
                     </div>
 

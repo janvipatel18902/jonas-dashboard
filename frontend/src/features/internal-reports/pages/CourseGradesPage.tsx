@@ -1,94 +1,82 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Layout from "../components/Layout";
-import { getCourseGrades } from "../api/internalReportsApi";
+import { getCourseGrades, getCourseDetails } from "../api/internalReportsApi";
+import { CourseGradesTable } from "../components/CourseGradesTable";
+import { EnvironmentBadge } from "../components/EnvironmentBadge";
 
 interface GradeRow {
     username: string;
     email: string;
+    course_id: string;
+    passed: boolean;
     percent: number;
+    letter_grade: string | null;
 }
 
 export default function CourseGradesPage() {
-    const { courseId } = useParams();
+    const { courseId } = useParams<{ courseId: string }>();
     const [rows, setRows] = useState<GradeRow[]>([]);
+    const [courseName, setCourseName] = useState<string>("");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        async function fetchGrades() {
-            try {
-                if (!courseId) return;
+        async function fetchData() {
+            if (!courseId) return;
 
-                const decodedId = decodeURIComponent(courseId);
-                const response = await getCourseGrades(decodedId);
+            const decoded = decodeURIComponent(courseId);
 
-                // ✅ Correct mapping (based on your backend screenshots)
-                const results = response?.data?.results ?? [];
+            const [gradesRes, detailsRes] = await Promise.all([
+                getCourseGrades(decoded),
+                getCourseDetails(decoded),
+            ]);
 
-                setRows(results);
-            } catch (err) {
-                console.error("Failed to load grades:", err);
-                setRows([]);
-            } finally {
-                setLoading(false);
-            }
+            setRows(gradesRes?.data?.results ?? []);
+            setCourseName(detailsRes?.data?.name ?? detailsRes?.name ?? "");
+            setLoading(false);
         }
 
-        fetchGrades();
+        fetchData();
     }, [courseId]);
 
     return (
         <Layout title="Course Grades">
-            <div className="flex gap-2 mb-4">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-4">
+                <h1 className="text-xl font-semibold">
+                    {courseName}
+                </h1>
+                <EnvironmentBadge />
+            </div>
+
+            {/* Tabs */}
+            <div className="flex gap-2 mb-6">
                 <Link
-                    to={`/open-edx/course/${courseId}/grades`}
+                    to={`/open-edx/course/${courseId ?? ""}/grades`}
                     className="px-4 py-2 text-sm font-medium rounded-lg bg-green-100 text-green-700"
                 >
                     Grades
                 </Link>
 
                 <Link
-                    to={`/open-edx/course/${courseId}/gradebook`}
-                    className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    to={`/open-edx/course/${courseId ?? ""}/gradebook`}
+                    className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50"
                 >
                     Gradebook
                 </Link>
 
                 <Link
-                    to={`/open-edx/course/${courseId}/details`}
-                    className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    to={`/open-edx/course/${courseId ?? ""}/details`}
+                    className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50"
                 >
                     Details
                 </Link>
             </div>
 
             {loading ? (
-                <div>Loading...</div>
-            ) : rows.length === 0 ? (
-                <div className="border border-gray-200 rounded-xl p-6 bg-white shadow-sm">
-                    <p className="text-sm text-gray-600">No grades found.</p>
-                </div>
+                <div className="text-sm text-gray-600">Loading...</div>
             ) : (
-                <div className="border border-gray-200 rounded-xl bg-white shadow-sm overflow-hidden">
-                    <table className="min-w-full text-sm">
-                        <thead className="bg-gray-50 border-b">
-                            <tr>
-                                <th className="px-4 py-2 text-left">Username</th>
-                                <th className="px-4 py-2 text-left">Email</th>
-                                <th className="px-4 py-2 text-right">Percent</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {rows.map((r, i) => (
-                                <tr key={i} className="border-b">
-                                    <td className="px-4 py-2">{r.username}</td>
-                                    <td className="px-4 py-2">{r.email || "-"}</td>
-                                    <td className="px-4 py-2 text-right">{r.percent ?? 0}%</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                <CourseGradesTable data={rows} />
             )}
         </Layout>
     );

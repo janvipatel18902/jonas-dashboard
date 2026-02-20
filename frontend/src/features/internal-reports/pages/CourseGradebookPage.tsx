@@ -1,96 +1,88 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Layout from "../components/Layout";
-import { getCourseGradebook } from "../api/internalReportsApi";
+import { getCourseGradebook, getCourseDetails } from "../api/internalReportsApi";
+import { CourseGradebookTable } from "../components/CourseGradebookTable";
+import { EnvironmentBadge } from "../components/EnvironmentBadge";
+
+interface GradebookSectionBreakdown {
+    attempted: boolean;
+    label: string;
+    percent: number;
+    score_earned: number;
+    score_possible: number;
+    subsection_name: string;
+}
 
 interface GradebookRow {
+    user_id: number;
     username: string;
     email: string;
     percent: number;
+    section_breakdown: GradebookSectionBreakdown[];
 }
 
 export default function CourseGradebookPage() {
-    const { courseId } = useParams();
+    const { courseId } = useParams<{ courseId: string }>();
     const [rows, setRows] = useState<GradebookRow[]>([]);
+    const [courseName, setCourseName] = useState("");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        async function fetchGradebook() {
-            try {
-                if (!courseId) return;
+        async function fetchData() {
+            if (!courseId) return;
 
-                const decodedId = decodeURIComponent(courseId);
-                const response = await getCourseGradebook(decodedId);
+            const decoded = decodeURIComponent(courseId);
 
-                // ✅ Correct mapping
-                const results = response?.data?.results ?? [];
+            const [gradebookRes, detailsRes] = await Promise.all([
+                getCourseGradebook(decoded),
+                getCourseDetails(decoded),
+            ]);
 
-                setRows(results);
-            } catch (err) {
-                console.error("Failed to load gradebook:", err);
-                setRows([]);
-            } finally {
-                setLoading(false);
-            }
+            setRows(gradebookRes?.data?.results ?? []);
+            setCourseName(detailsRes?.data?.name ?? detailsRes?.name ?? "");
+            setLoading(false);
         }
 
-        fetchGradebook();
+        fetchData();
     }, [courseId]);
 
     return (
         <Layout title="Course Gradebook">
-            <div className="flex gap-2 mb-4">
+            <div className="flex items-center justify-between mb-4">
+                <h1 className="text-xl font-semibold">
+                    {courseName}
+                </h1>
+                <EnvironmentBadge />
+            </div>
+
+            <div className="flex gap-2 mb-6">
                 <Link
-                    to={`/open-edx/course/${courseId}/grades`}
-                    className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    to={`/open-edx/course/${courseId ?? ""}/grades`}
+                    className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50"
                 >
                     Grades
                 </Link>
 
                 <Link
-                    to={`/open-edx/course/${courseId}/gradebook`}
+                    to={`/open-edx/course/${courseId ?? ""}/gradebook`}
                     className="px-4 py-2 text-sm font-medium rounded-lg bg-green-100 text-green-700"
                 >
                     Gradebook
                 </Link>
 
                 <Link
-                    to={`/open-edx/course/${courseId}/details`}
-                    className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                    to={`/open-edx/course/${courseId ?? ""}/details`}
+                    className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50"
                 >
                     Details
                 </Link>
             </div>
 
             {loading ? (
-                <div>Loading...</div>
-            ) : rows.length === 0 ? (
-                <div className="border border-gray-200 rounded-xl p-6 bg-white shadow-sm text-sm text-gray-500">
-                    No gradebook data found.
-                </div>
+                <div className="text-sm text-gray-500">Loading...</div>
             ) : (
-                <div className="border border-gray-200 rounded-xl bg-white shadow-sm overflow-hidden">
-                    <table className="min-w-full text-sm">
-                        <thead className="bg-gray-50 border-b">
-                            <tr>
-                                <th className="px-4 py-2 text-left">Username</th>
-                                <th className="px-4 py-2 text-left">Email</th>
-                                <th className="px-4 py-2 text-right">Percent</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {rows.map((r, i) => (
-                                <tr key={i} className="border-b">
-                                    <td className="px-4 py-2">{r.username}</td>
-                                    <td className="px-4 py-2">{r.email || "-"}</td>
-                                    <td className="px-4 py-2 text-right">
-                                        {r.percent ?? 0}%
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                <CourseGradebookTable data={rows} />
             )}
         </Layout>
     );
