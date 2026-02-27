@@ -39,13 +39,69 @@ export default function CourseGradesPage() {
         fetchData();
     }, [courseId]);
 
+    // return (
+    //     <Layout title="Course Grades">
+    //         {/* Header */}
+    //         <div className="flex items-center justify-between mb-4">
+    //             <h1 className="text-xl font-semibold">
+    //                 {courseName}
+    //             </h1>
+    //             <EnvironmentBadge />
+    //         </div>
+
+    //         {/* Tabs */}
+    //         <div className="flex gap-2 mb-6">
+    //             <Link
+    //                 to={`/open-edx/course/${courseId ?? ""}/grades`}
+    //                 className="px-4 py-2 text-sm font-medium rounded-lg bg-green-100 text-green-700"
+    //             >
+    //                 Grades
+    //             </Link>
+
+    //             <Link
+    //                 to={`/open-edx/course/${courseId ?? ""}/gradebook`}
+    //                 className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50"
+    //             >
+    //                 Gradebook
+    //             </Link>
+
+    //             <Link
+    //                 to={`/open-edx/course/${courseId ?? ""}/details`}
+    //                 className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50"
+    //             >
+    //                 Details
+    //             </Link>
+    //         </div>
+
+    //         {loading ? (
+    //             <div className="text-sm text-gray-600">Loading...</div>
+    //         ) : (
+    //             <CourseGradesTable data={rows} />
+    //         )}
+    //     </Layout>
+    // );
+
+
+
+
+
     return (
         <Layout title="Course Grades">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-4">
-                <h1 className="text-xl font-semibold">
+            {/* Back Button */}
+            <div className="mb-4">
+                <Link
+                    to="/open-edx"
+                    className="px-4 py-2 text-sm font-medium rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                >
+                    ← Back to Micro-Experiences
+                </Link>
+            </div>
+
+            {/* Course Name + Environment */}
+            <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-semibold text-gray-900">
                     {courseName}
-                </h1>
+                </h2>
                 <EnvironmentBadge />
             </div>
 
@@ -80,4 +136,11 @@ export default function CourseGradesPage() {
             )}
         </Layout>
     );
+
+
+
+
+
+
+
 }

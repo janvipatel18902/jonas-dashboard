@@ -32,7 +32,7 @@ export default function AppRouter() {
                     element={<CourseGradebookPage />}
                 />
 
-                ================= EVENTS =================
+                {/* /================= EVENTS ================= */}
                 <Route path="/events" element={<EventsPage />} />
                 <Route path="/events/:event_id" element={<EventDetailsPage />}
                 />
